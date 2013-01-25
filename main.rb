@@ -10,5 +10,9 @@ helpers do
 end
 
 get '*' do
-  return "Request Headers:\n\n\n" + request_headers.inspect
+  r = "Request Headers:<br/><br/><br/>"
+  request_headers.each do |k, v|
+    r += "#{k} => #{v}<br/>"
+  end
+  return r
 end
