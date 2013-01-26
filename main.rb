@@ -23,9 +23,13 @@ def any(url, verbs = %w(get post put delete), &block)
 end
 
 any '*' do
-  h = request_headers
-  r = "#{request.request_method.upcase} #{request.path} #{env["HTTP_VERSION"].upcase}\r\n"
-  h.each do |k, v|
+  path = request.path
+  if !request.query_string.nil? or !request.query_string.empty?
+    path += "?#{request.query_string}"
+  end
+
+  r = "#{request.request_method.upcase} #{path} #{env["HTTP_VERSION"].upcase}\r\n"
+  request_headers.each do |k, v|
     r += "#{k.capitalize}: #{v}\r\n"
   end
   return "<pre>#{r}</pre>"
