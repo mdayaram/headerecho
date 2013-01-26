@@ -5,14 +5,28 @@ require 'sinatra'
 
 helpers do
   def request_headers
-    env.inject({}){|acc, (k,v)| acc[$1.downcase] = v if k =~ /^http_(.*)/i; acc}
+    not_headers = ["version"]
+    env.inject({}) do |acc, (k,v)|
+      if k =~ /^http_(.*)/i and !not_headers.include?($1.downcase)
+        acc[$1.downcase] = v
+      end
+      acc
+    end
   end  
 end
 
-get '*' do
-  r = "Request Headers:<br/><br/><br/>"
-  request_headers.each do |k, v|
-    r += "#{k} => #{v}<br/>"
+# Define a handler for multiple http verbs at once
+def any(url, verbs = %w(get post put delete), &block)
+  verbs.each do |verb|
+    send(verb, url, &block)
   end
-  return r
+end
+
+any '*' do
+  h = request_headers
+  r = "#{request.request_method.upcase} #{request.path} #{env["HTTP_VERSION"].upcase}\r\n"
+  h.each do |k, v|
+    r += "#{k.capitalize}: #{v}\r\n"
+  end
+  return "<pre>#{r}</pre>"
 end
