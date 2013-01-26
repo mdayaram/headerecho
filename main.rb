@@ -24,7 +24,7 @@ end
 
 any '*' do
   path = request.path
-  if !request.query_string.nil? or !request.query_string.empty?
+  if !request.query_string.nil? and !request.query_string.empty?
     path += "?#{request.query_string}"
   end
 
