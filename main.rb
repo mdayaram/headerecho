@@ -23,6 +23,7 @@ def any(url, verbs = %w(get post put delete), &block)
 end
 
 any '*' do
+  content_type 'text/plain'
   path = request.path
   if !request.query_string.nil? and !request.query_string.empty?
     path += "?#{request.query_string}"
@@ -32,5 +33,7 @@ any '*' do
   request_headers.each do |k, v|
     r += "#{k.capitalize}: #{v}\r\n"
   end
-  return "<pre>#{r}</pre>"
+  r += "\r\n"
+  r += request.body.read
+  return r
 end
