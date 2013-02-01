@@ -13,6 +13,10 @@ helpers do
       acc
     end
   end  
+
+  def h_cap(header)
+    header.split("_").each { |w| w.capitalize! }.join("_")
+  end
 end
 
 # Define a handler for multiple http verbs at once
@@ -31,7 +35,7 @@ any '*' do
 
   r = "#{request.request_method.upcase} #{path} #{env["HTTP_VERSION"].upcase}\r\n"
   request_headers.each do |k, v|
-    r += "#{k.capitalize}: #{v}\r\n"
+    r += "#{h_cap(k)}: #{v}\r\n"
   end
   r += "\r\n"
   r += request.body.read
