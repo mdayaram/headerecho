@@ -1,8 +1,27 @@
 #!/usr/bin/env ruby
 
 require 'socket'
-require './port'
-require './header'
+
+PORT = 4567
+if ARGV.length > 0
+  PORT = ARGV[0].to_i
+  if PORT == 0
+    PORT = 4567
+  end
+end
+
+def generate_response(data)
+  "HTTP/1.1 200 OK\r\n" +
+  "Content-Type: text/plain\r\n" +
+  "Server: headerecho\r\n" +
+  "Connection: close\r\n" +
+  "Cache-Control: no-cache\r\n" +
+  "Pragma: no-cache\r\n" +
+  "Content-Length: #{data.length}\r\n" +
+  "\r\n" +
+  "#{data}"
+end
+
 
 puts "Starting server on 0.0.0.0:#{PORT}"
 webserver = TCPServer.new('0.0.0.0', PORT)
