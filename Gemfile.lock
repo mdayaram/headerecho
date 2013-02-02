@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    eventmachine (1.0.0)
     rack (1.5.0)
     rack-protection (1.3.2)
       rack
@@ -14,4 +15,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  eventmachine
   sinatra
