@@ -11,8 +11,7 @@ loop do
     puts "Got a request! So exciting!"
     begin
       response_data = ""
-      while socket
-        line = socket.gets("\0") || break
+      while line = socket.gets
         puts line
         response_data += line
       end
