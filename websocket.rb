@@ -4,8 +4,8 @@ require 'socket'
 require './port'
 require './header'
 
-puts "Starting server on localhost:#{PORT}"
-webserver = TCPServer.new('localhost', PORT)
+puts "Starting server on 0.0.0.0:#{PORT}"
+webserver = TCPServer.new('0.0.0.0', PORT)
 loop do
   Thread.start(webserver.accept) do |socket|
     puts "Got a request! So exciting!"

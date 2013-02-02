@@ -1,7 +1,7 @@
 require "socket"
 require "./port"
  
-gs = TCPServer.new("localhost", PORT)
+gs = TCPServer.new("0.0.0.0", PORT)
 addr = gs.addr
 addr.shift
 printf("server is on %s\n", addr.join(":"))
