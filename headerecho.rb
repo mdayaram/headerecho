@@ -57,6 +57,7 @@ loop do
       logger.log "Request length: #{body_length}"
       response_data += socket.readpartial(body_length)
       socket.print generate_response(response_data)
+      socket.flush
     rescue StandardError => e
       logger.log "Error handling request: #{e.inspect}"
     end
